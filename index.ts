@@ -5,12 +5,12 @@ const client = new Discord.Client();
 let token: string = "";
 let quoteJson;
 client.on('ready', () => {
-    console.log("It's a me, Andrew! Call me by typing Italiano");
+    console.log("I love madgear");
     client.user.setGame("Minecraft");
     http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
         let dataString = "";
         res.on('data', (d) => dataString += d);
-        res.on('end', () => quoteJson = JSON.parse(dataString));
+        res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
     });
 });
 const ThoughtsRead = (): Array<string> => {
@@ -47,7 +47,7 @@ client.on('message', message => {
         }
         else {
             let quote = quoteJson[Math.floor(Math.random() * (quoteJson.length))];
-            message.reply(`"${quote.QuoteText}"\n \t~ ${quote.QuoteAuthor}`);
+            message.reply(quote.QuoteText);
         }
     }
 });

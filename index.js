@@ -5,12 +5,12 @@ var client = new Discord.Client();
 var token = "";
 var quoteJson;
 client.on('ready', function () {
-    console.log("It's a me, Andrew! Call me by typing Italiano");
+    console.log("I love madgear");
     client.user.setGame("Minecraft");
     http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", function (res) {
         var dataString = "";
         res.on('data', function (d) { return dataString += d; });
-        res.on('end', function () { return quoteJson = JSON.parse(dataString); });
+        res.on('end', function () { return quoteJson = JSON.parse(dataString).filter(function (q) { return q.Topic.TopicId == 5; }); });
     });
 });
 var ThoughtsRead = function () {
@@ -47,7 +47,7 @@ client.on('message', function (message) {
         }
         else {
             var quote = quoteJson[Math.floor(Math.random() * (quoteJson.length))];
-            message.reply("\"" + quote.QuoteText + "\"\n \t~ " + quote.QuoteAuthor);
+            message.reply(quote.QuoteText);
         }
     }
 });
