@@ -46,6 +46,9 @@ client.on('message', function (message) {
             else
                 message.reply("I don't know anything, tell me to remember something");
         }
+        else if (message.author.username == "ItalianoBot") {
+            message.channel.sendMessage("Not much homes", { tts: true });
+        }
         else {
             var quote = quoteJson[Math.floor(Math.random() * (quoteJson.length))];
             message.reply(quote.QuoteText);
