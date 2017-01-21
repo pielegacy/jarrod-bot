@@ -7,12 +7,12 @@ let quoteJson;
 client.on('ready', () => {
     console.log("I love madgear");
     client.user.setGame("Minecraft");
-    // http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
-    //     let dataString = "";
-    //     res.on('data', (d) => dataString += d);
-    //     res.on('error', () => {});
-    //     res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
-    // });
+    http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
+        let dataString = "";
+        res.on('data', (d) => dataString += d);
+        res.on('error', () => {});
+        res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
+    });
 });
 const ThoughtsRead = (): Array<string> => {
     let thoughtString = fs.readFileSync("thoughts.json");
@@ -56,6 +56,7 @@ client.on('message', message => {
 if (token == "") {
     fs.readFile("token.txt", "utf-8", (err, data) => {
         token = data;
+        console.log(data);
         client.login(token);
 
     });

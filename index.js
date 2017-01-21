@@ -7,12 +7,12 @@ var quoteJson;
 client.on('ready', function () {
     console.log("I love madgear");
     client.user.setGame("Minecraft");
-    // http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
-    //     let dataString = "";
-    //     res.on('data', (d) => dataString += d);
-    //     res.on('error', () => {});
-    //     res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
-    // });
+    http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", function (res) {
+        var dataString = "";
+        res.on('data', function (d) { return dataString += d; });
+        res.on('error', function () { });
+        res.on('end', function () { return quoteJson = JSON.parse(dataString).filter(function (q) { return q.Topic.TopicId == 5; }); });
+    });
 });
 var ThoughtsRead = function () {
     var thoughtString = fs.readFileSync("thoughts.json");
@@ -56,6 +56,7 @@ client.on('message', function (message) {
 if (token == "") {
     fs.readFile("token.txt", "utf-8", function (err, data) {
         token = data;
+        console.log(data);
         client.login(token);
     });
 }
