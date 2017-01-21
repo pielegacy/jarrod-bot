@@ -56,7 +56,6 @@ client.on('message', function (message) {
 if (token == "") {
     fs.readFile("token.txt", "utf-8", function (err, data) {
         token = data;
-        console.log(data);
         client.login(token);
     });
 }
