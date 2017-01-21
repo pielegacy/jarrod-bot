@@ -10,6 +10,7 @@ client.on('ready', () => {
     http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
         let dataString = "";
         res.on('data', (d) => dataString += d);
+        res.on('error', () => {});
         res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
     });
 });
