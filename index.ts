@@ -10,7 +10,7 @@ client.on('ready', () => {
     http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
         let dataString = "";
         res.on('data', (d) => dataString += d);
-        res.on('error', () => {});
+        res.on('error', () => { });
         res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
     });
 });
@@ -45,6 +45,10 @@ client.on('message', message => {
             }
             else
                 message.reply("I don't know anything, tell me to remember something");
+        }
+        else if (message.author.username == "ItalianoBot") {
+            message.channel.sendMessage("Not much homes", { tts: true });
+
         }
         else {
             let quote = quoteJson[Math.floor(Math.random() * (quoteJson.length))];
