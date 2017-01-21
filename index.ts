@@ -2,18 +2,27 @@ const Discord = require('discord.js');
 const http = require('http');
 const fs = require('fs');
 const client = new Discord.Client();
+const quoteInterval: number = 300000; // 5 minutes
 let token: string = "";
 let quoteJson;
 client.on('ready', () => {
     console.log("I love madgear");
     client.user.setGame("Minecraft");
+    setInterval(PullQuotes, quoteInterval);
+    PullQuotes(); // Initial pull
+});
+const PullQuotes = () => {
+    console.log("Updating quotes...");
     http.get("http://ripperquotes.azurewebsites.net/api/QuotesApi", (res) => {
         let dataString = "";
         res.on('data', (d) => dataString += d);
         res.on('error', () => { });
-        res.on('end', () => quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5));
+        res.on('end', () => {
+            quoteJson = JSON.parse(dataString).filter((q) => q.Topic.TopicId == 5 || (q.QuoteAuthor as string).toLowerCase() === "jarrod" || (q.QuoteAuthor as string).toLowerCase() === "jarrod golland");
+            console.log(quoteJson);
+        });
     });
-});
+}
 const ThoughtsRead = (): Array<string> => {
     let thoughtString = fs.readFileSync("thoughts.json");
     let thoughts = thoughtString == undefined ? ([] as Array<string>) : JSON.parse(thoughtString);
