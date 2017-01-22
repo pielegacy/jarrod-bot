@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const http = require('http');
 const fs = require('fs');
 const client = new Discord.Client();
-const quoteInterval: number = 300000; // 5 minutes
+const quoteInterval: number = 300000 / 2; // 5 minutes
 let token: string = "";
 let quoteJson;
 client.on('ready', () => {
